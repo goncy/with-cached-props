@@ -5,8 +5,8 @@ const HomePage:InferGetStaticPropsType<typeof getStaticProps> = ({ url, query, c
     <div>
       <h1>Home</h1>
       <p>url: {url}</p>
-      <p>query: {JSON.stringify(query)}</p>
-      <p>cookies: {JSON.stringify(cookies)}</p>
+      <p>query: {JSON.stringify(query, null, 2)}</p>
+      <p>cookies: {JSON.stringify(cookies, null, 2)}</p>
       <p>timestamp: {timestamp}</p>
     </div>
   )
@@ -30,8 +30,8 @@ export const getStaticProps: GetStaticProps = async ({
     revalidate: 10,
     props: {
       url: `/${params.cookies}/${params.query}`,
-      query: JSON.parse(params.query.replace('query-', '')),
-      cookies: JSON.parse(params.cookies.replace('cookies-', '')), 
+      query: JSON.parse(decodeURIComponent(params.query)),
+      cookies: JSON.parse(decodeURIComponent(params.cookies)), 
       timestamp,
     },
   };

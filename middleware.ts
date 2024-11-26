@@ -5,8 +5,8 @@ export const config = {
 }
 
 export default async function middleware(request: NextRequest) {
-  const cookiesKey = `cookies-${JSON.stringify(request.cookies.getAll())}`;
-  const queryKey = `query-${JSON.stringify(Array.from(request.nextUrl.searchParams.entries()))}`;
+  const cookiesKey = encodeURIComponent(JSON.stringify(request.cookies.getAll()));
+  const queryKey = encodeURIComponent(JSON.stringify(Array.from(request.nextUrl.searchParams.entries())));
 
   request.nextUrl.pathname = `/${cookiesKey}/${queryKey}${request.nextUrl.pathname}`;
 
