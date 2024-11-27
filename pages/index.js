@@ -1,6 +1,6 @@
 import withCachedProps from '../withCachedProps';
 
-export default function HomePage({ url, query, cookies, timestamp }) {
+function HomePage({ url, query, cookies, timestamp }) {
   return (
     <div>
       <h1>Home</h1>
@@ -12,15 +12,15 @@ export default function HomePage({ url, query, cookies, timestamp }) {
   )
 }
 
-export const getServerSideProps = withCachedProps(async (context) => {
+HomePage.getInitialProps = withCachedProps(async (context) => {
   const timestamp = new Date().toISOString();
-
+    
   return {
-    props: {
-      url: context.resolvedUrl,
-      query: context.query,
-      cookies: context.req.cookies,
-      timestamp,
-    }
+    url: context.asPath,
+    query: context.query,
+    cookies: context.req?.cookies || {},
+    timestamp,
   };
 });
+
+export default HomePage;
