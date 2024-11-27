@@ -1,4 +1,4 @@
-import { unstable_cache } from "next/cache";
+import { unstable_cache as cache } from "next/cache";
 import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +13,7 @@ export default async function HomePage({
   const { user } = await searchParams;
 
   // Create a fetch page method
-  const fetchPageData = unstable_cache(
+  const fetchPageData = cache(
     async () => {
       return {
         title: "Home Page",
