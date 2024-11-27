@@ -1,7 +1,8 @@
 import { unstable_cache as cache } from "next/cache";
 import { cookies } from "next/headers";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
+export const revalidate = 30;
 
 export default async function HomePage({
   searchParams,
@@ -11,19 +12,20 @@ export default async function HomePage({
   // Get the information we want to use in the keyparts
   const cookieStore = await cookies();
   const { user } = await searchParams;
+  const bucket = cookieStore.get("bucket")?.value
 
   // Create a fetch page method
   const fetchPageData = cache(
-    async () => {
+    async (bucket, user) => {
       return {
         title: "Home Page",
         user,
-        bucket: cookieStore.get("bucket")?.value,
+        bucket,
         timestamp: new Date().toISOString(),
       };
     },
     // Key parts are optional, but in here you can add cookies and params you are not using in the request itself to make it unique for this subset
-    [cookieStore.get("bucket")?.value, user],
+    [],
     // Define tags and revalidation time, defining a tag will allow you to invalidate all permutations you have tagged with that tag at once
     {
       tags: ["home-page"],
@@ -32,7 +34,7 @@ export default async function HomePage({
   );
 
   // Fetch the page data
-  const pageData = await fetchPageData();
+  const pageData = await fetchPageData(bucket, user);
 
   return (
     <div>
