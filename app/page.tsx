@@ -1,8 +1,7 @@
 import { unstable_cache as cache } from "next/cache";
 import { cookies } from "next/headers";
 
-// export const dynamic = "force-dynamic";
-export const revalidate = 30;
+export const dynamic = "force-dynamic";
 
 export default async function HomePage({
   searchParams,
