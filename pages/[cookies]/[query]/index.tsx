@@ -1,10 +1,10 @@
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 
-const HomePage:InferGetStaticPropsType<typeof getStaticProps> = ({ url, query, cookies, timestamp }) => {
+const HomePage:InferGetStaticPropsType<typeof getStaticProps> = ({ path, query, cookies, timestamp }) => {
   return (
     <div>
       <h1>Home</h1>
-      <p>url: {url}</p>
+      <p>url: {path}</p>
       <p>query: {JSON.stringify(query, null, 2)}</p>
       <p>cookies: {JSON.stringify(cookies, null, 2)}</p>
       <p>timestamp: {timestamp}</p>
@@ -29,7 +29,7 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     revalidate: 10,
     props: {
-      url: `/${params.cookies}/${params.query}`,
+      path: `/${params.cookies}/${params.query}`,
       query: JSON.parse(decodeURIComponent(params.query)),
       cookies: JSON.parse(decodeURIComponent(params.cookies)), 
       timestamp,
