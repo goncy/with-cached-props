@@ -12,8 +12,8 @@ export default async function middleware(request: NextRequest) {
   // Check if the request has only allowed search params
   const hasOnlyAllowedParams = Array.from(request.nextUrl.searchParams.keys()).every(key => ALLOWED_SEARCH_PARAMS.includes(key));
 
-  // If no params or only allowed params, cache the response for 10 seconds, otherwise don't cache
-  const cacheControl = hasOnlyAllowedParams ? 'public, s-maxage=10' : 'no-store';
+  // If no params or only allowed params, cache the response for 60 seconds, otherwise don't cache
+  const cacheControl = hasOnlyAllowedParams ? 'public, s-maxage=60' : 'no-store';
 
   // Tell the browser to not cache the response
   response.headers.set('cache-control', 'private, no-cache, no-store, max-age=0, must-revalidate');
