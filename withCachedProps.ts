@@ -10,7 +10,7 @@ import { kv } from '@vercel/kv';
  * @param gssp Original getServerSideProps function to be wrapped
  * @returns Enhanced getServerSideProps function with caching
  */
-export default function withCachedProps<P>(gssp: GetServerSideProps<P>): GetServerSideProps<P> {
+export default function withCachedProps<P extends { [key: string]: any }>(gssp: GetServerSideProps<P>): GetServerSideProps<P> {
   return async (context: GetServerSidePropsContext) => {
     // Extract relevant data from context to create a unique cache key
     const { resolvedUrl, query, req: {cookies} } = context;
