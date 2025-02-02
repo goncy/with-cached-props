@@ -1,5 +1,3 @@
-import withCachedProps from '../withCachedProps';
-
 export default function HomePage({ url, query, cookies, timestamp }) {
   return (
     <div>
@@ -12,7 +10,15 @@ export default function HomePage({ url, query, cookies, timestamp }) {
   )
 }
 
-export const getServerSideProps = withCachedProps(async (context) => {
+export const getServerSideProps = context => {
+  // Set the Vary header to include the Cookie header
+  context.res.setHeader('Vary', 'Cookie');
+
+  // Set the Cache-Control header to cache the response for 10 seconds
+  context.res.setHeader('Cache-Control', 's-maxage=10, stale-while-revalidate=59');
+
+
+  // Get the timestamp to ensure the response is cached
   const timestamp = new Date().toISOString();
 
   return {
@@ -23,4 +29,4 @@ export const getServerSideProps = withCachedProps(async (context) => {
       timestamp,
     }
   };
-});
+};
