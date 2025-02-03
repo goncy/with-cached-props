@@ -15,7 +15,7 @@ export const getServerSideProps = context => {
   context.res.setHeader('Vary', 'Cookie');
 
   // Set the Cache-Control header to cache the response for 10 seconds
-  context.res.setHeader('Cache-Control', 's-maxage=10');
+  context.res.setHeader('Cache-Control', 's-maxage=60');
 
 
   // Get the timestamp to ensure the response is cached
